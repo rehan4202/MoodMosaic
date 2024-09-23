@@ -1,3 +1,5 @@
+// src/screens/WelcomeScreen.js
+
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
 
@@ -7,7 +9,7 @@ const WelcomeScreen = ({ navigation }) => {
             <Text style={styles.title}>Welcome to Mood Mosaic</Text>
             <Button
                 title="Get Started"
-                onPress={() => navigation.navigate('MoodTracker')}
+                onPress={() => navigation.navigate('MoodTracker')} // This should navigate to the MoodTrackerScreen
             />
         </View>
     );
@@ -28,4 +30,5 @@ const styles = StyleSheet.create({
 });
 
 export default WelcomeScreen;
+
 
