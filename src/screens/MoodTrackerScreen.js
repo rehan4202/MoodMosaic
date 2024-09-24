@@ -3,9 +3,11 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import ShareMoodBoard from '../components/ShareMoodBoard';
 
 const MoodTrackerScreen = ({ navigation }) => {
     const [mood, setMood] = useState('');
+    const [moodBoard, setMoodBoard] = useState({});
 
     const saveMood = async () => {
         if (mood.trim() === '') {
@@ -27,10 +29,17 @@ const MoodTrackerScreen = ({ navigation }) => {
 
             Alert.alert("Mood saved successfully!");
             setMood(''); // Clear input after saving
+            setMoodBoard(newMood); // Update moodBoard state
         } catch (error) {
             console.error("Error saving mood:", error);
             Alert.alert("Failed to save mood. Please try again.");
         }
+    };
+
+    const handleShare = () => {
+        // TO DO: implement share functionality
+        console.log("Sharing mood board...");
+        navigation.navigate('Community', { moodBoard });
     };
 
     return (
@@ -48,6 +57,8 @@ const MoodTrackerScreen = ({ navigation }) => {
                 onPress={saveMood}
                 color="#6200ee" // Custom button color
             />
+            <View style={styles.spacing} />
+            <ShareMoodBoard moodBoard={moodBoard} onShare={handleShare} />
             <View style={styles.spacing} />
             <Button
                 title="View Mood History"
