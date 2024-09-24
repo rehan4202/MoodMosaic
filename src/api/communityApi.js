@@ -18,7 +18,13 @@ const getMoodBoards = async () => {
 
 const shareMoodBoard = async (moodBoard) => {
     try {
-        const response = await communityApi.post('/posts', moodBoard);
+        // Add a visibility property to the mood board object
+        const moodBoardWithVisibility = {
+            ...moodBoard,
+            visibility: moodBoard.visibility || 'public', // Default to 'public' if no visibility is set
+        };
+
+        const response = await communityApi.post('/posts', moodBoardWithVisibility);
         return response.data;
     } catch (error) {
         console.error('Error sharing mood board:', error);

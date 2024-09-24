@@ -3,7 +3,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Button } from 'react-native';
 import { getMoodBoards, shareMoodBoard } from '../api/communityApi';
-import MoodBoardItem from '../components/MoodBoardItem'; // Import MoodBoardItem
+import MoodBoardItem from '../components/MoodBoardItem';
+import {fetchMoodBoardsFromStorage} from "../../storage"; // Import MoodBoardItem
 
 const CommunityScreen = () => {
     const [moodBoards, setMoodBoards] = useState([]);
@@ -12,8 +13,10 @@ const CommunityScreen = () => {
     useEffect(() => {
         const fetchMoodBoards = async () => {
             try {
-                const moodBoardsData = await getMoodBoards();
+                const moodBoardsData = await fetchMoodBoardsFromStorage();
+                console.log('Fetched mood boards:', moodBoards);
                 setMoodBoards(moodBoardsData);
+                console.log('Mood boards set state:', moodBoards);
             } catch (error) {
                 console.error('Error fetching mood boards:', error);
             }
