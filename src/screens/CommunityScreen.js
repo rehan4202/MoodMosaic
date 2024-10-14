@@ -2,11 +2,12 @@
 
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, Button } from 'react-native';
-import { getMoodBoards, shareMoodBoard } from '../api/communityApi';
+import { fetchMoodBoardsFromStorage, shareMoodBoard } from '../api/communityApi';
 import MoodBoardItem from '../components/MoodBoardItem';
-import {fetchMoodBoardsFromStorage} from "../../storage"; // Import MoodBoardItem
+import { useNavigation } from '@react-navigation/native';
 
 const CommunityScreen = () => {
+    const navigation = useNavigation();
     const [moodBoards, setMoodBoards] = useState([]);
     const [shared, setShared] = useState(false);
 
@@ -14,9 +15,7 @@ const CommunityScreen = () => {
         const fetchMoodBoards = async () => {
             try {
                 const moodBoardsData = await fetchMoodBoardsFromStorage();
-                console.log('Fetched mood boards:', moodBoards);
                 setMoodBoards(moodBoardsData);
-                console.log('Mood boards set state:', moodBoards);
             } catch (error) {
                 console.error('Error fetching mood boards:', error);
             }
@@ -38,13 +37,13 @@ const CommunityScreen = () => {
             <Text>Community Mood Boards</Text>
             <FlatList
                 data={moodBoards}
-                renderItem={({ item }) => (
-                    <MoodBoardItem item={item} />
-                )}
+                renderItem={({ item }) => <MoodBoardItem item={item} />} // Ensure item is passed here
                 keyExtractor={(item) => item.id.toString()}
             />
             <Button title="Share Your Mood Board" onPress={handleShare} />
             {shared && <Text>Mood board shared successfully!</Text>}
+            <Button title="Go to Mood Board Creation" onPress={() => navigation.navigate('MoodBoardCreation')} />
+            <Button title="View Community Feed" onPress={() => navigation.navigate('Community')} />
         </View>
     );
 };

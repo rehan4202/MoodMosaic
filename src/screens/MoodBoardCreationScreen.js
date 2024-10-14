@@ -1,19 +1,19 @@
 // MoodBoardCreationScreen.js
 
 import React, { useState } from 'react';
-import { View, Text, TextInput, Image, Button, Picker } from 'react-native';
+import { View, Text, TextInput, TextArea, Image, Button } from 'react-native';
 import ImagePicker from 'react-native-image-picker';
 import ColorPicker from 'react-native-color-picker';
-import { storeMoodBoards, fetchMoodBoardsFromStorage } from '../storage'; // Import storeMoodBoards function
-import { shareMoodBoard } from '../api/communityApi'; // Import the shareMoodBoard function
+import { storeMoodBoards } from '../storage'; // Import storeMoodBoards function
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation
 
 const MoodBoardCreationScreen = () => {
+    const navigation = useNavigation(); // Initialize navigation
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [backgroundImage, setBackgroundImage] = useState(null);
     const [colors, setColors] = useState([]);
     const [moodBoardCreated, setMoodBoardCreated] = useState(false);
-    const [visibility, setVisibility] = useState('public'); // State for visibility
 
     const handleTitleChange = (text) => {
         setTitle(text);
@@ -39,17 +39,22 @@ const MoodBoardCreationScreen = () => {
                 description,
                 backgroundImage,
                 colors,
-                visibility, // Include visibility in the mood board object
             };
 
-            // Share the mood board via the API
-            await shareMoodBoard(moodBoard); // Share the mood board
+            // Store the mood board in storage
+            await storeMoodBoards([moodBoard]); // Store the mood board in storage
 
             // Set the mood board created state to true
             setMoodBoardCreated(true);
+            // Navigate to ShareMoodBoardScreen
+            navigateToShareMoodBoard(moodBoard);
         } catch (error) {
             console.error(error);
         }
+    };
+
+    const navigateToShareMoodBoard = (moodBoard) => {
+        navigation.navigate('ShareMoodBoard', { moodBoard });
     };
 
     const handleCreateMoodBoard = () => {
@@ -81,7 +86,7 @@ const MoodBoardCreationScreen = () => {
                 value={title}
                 onChangeText={handleTitleChange}
             />
-            <TextInput
+            <TextArea
                 placeholder="Description"
                 value={description}
                 onChangeText={handleDescriptionChange}
@@ -97,23 +102,12 @@ const MoodBoardCreationScreen = () => {
             />
             <View>
                 <Text>Colors:</Text>
-                {colors.map((color, index) => (
-                    <Text key={index}>{color}</Text>
+                {colors.map((color) => (
+                    <Text key={color}>{color}</Text>
                 ))}
                 <ColorPicker
                     onColorChange={handleColorSelection}
                 />
-            </View>
-            <View>
-                <Text>Select Visibility:</Text>
-                <Picker
-                    selectedValue={visibility}
-                    onValueChange={(itemValue) => setVisibility(itemValue)}
-                >
-                    <Picker.Item label="Public" value="public" />
-                    <Picker.Item label="Friends" value="friends" />
-                    <Picker.Item label="Private" value="private" />
-                </Picker>
             </View>
             <Button
                 title="Create Mood Board"

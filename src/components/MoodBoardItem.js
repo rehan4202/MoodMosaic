@@ -3,11 +3,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const MoodBoardItem = () => {
+const MoodBoardItem = ({ item }) => { // Accept item as a prop
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Mood Board Title</Text>
-            <Text style={styles.body}>This is a mood board</Text>
+            <Text style={styles.title}>{item.title}</Text> {/* Use item.title */}
+            <Text style={styles.body}>{item.body}</Text> {/* Use item.body */}
         </View>
     );
 };

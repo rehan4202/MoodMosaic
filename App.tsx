@@ -7,6 +7,7 @@ import MoodHistoryScreen from './src/screens/MoodHistoryScreen'; // Import MoodH
 import CommunityScreen from './src/screens/CommunityScreen'; // Import CommunityScreen
 import MoodBoardCreationScreen from './src/screens/MoodBoardCreationScreen'; // Import MoodBoardCreationScreen
 import MoodBoardDisplayScreen from './src/screens/MoodBoardDisplayScreen'; // Import MoodBoardDisplayScreen
+import ShareMoodBoardScreen from './src/screens/ShareMoodBoardScreen'; // Import ShareMoodBoardScreen
 
 const Stack = createStackNavigator();
 
@@ -26,23 +27,28 @@ const App = () => {
                 />
                 <Stack.Screen
                     name="MoodHistory"
-                    component={MoodHistoryScreen} // Add MoodHistoryScreen here
+                    component={MoodHistoryScreen}
                     options={{ title: 'Mood History' }}
                 />
                 <Stack.Screen
                     name="Community"
-                    component={CommunityScreen} // Add CommunityScreen here
+                    component={CommunityScreen}
                     options={{ title: 'Community' }}
                 />
                 <Stack.Screen
                     name="MoodBoardCreation"
-                    component={MoodBoardCreationScreen} // Add MoodBoardCreationScreen here
+                    component={MoodBoardCreationScreen}
                     options={{ title: 'Create Mood Board' }}
                 />
                 <Stack.Screen
                     name="MoodBoardDisplay"
-                    component={MoodBoardDisplayScreen} // Add MoodBoardDisplayScreen here
+                    component={MoodBoardDisplayScreen}
                     options={{ title: 'Mood Boards' }}
+                />
+                <Stack.Screen
+                    name="ShareMoodBoard"
+                    component={ShareMoodBoardScreen} // Add ShareMoodBoardScreen here
+                    options={{ title: 'Share Mood Board' }}
                 />
             </Stack.Navigator>
         </NavigationContainer>
@@ -50,6 +56,4 @@ const App = () => {
 };
 
 export default App;
-
-
 
